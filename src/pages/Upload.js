@@ -11,7 +11,7 @@ export default function Upload() {
     const handleFileInputChange = (e) => {
         const file = e.target.files[0]; //can upload multiple photos by changing this line from grabbing index [0] to something else
         previewFile(file);
-
+        
     }
     const previewFile = (file) => {
         const reader = new FileReader()
@@ -20,12 +20,20 @@ export default function Upload() {
             setPreviewSource(reader.result)
         }
     }
+    const handleSubmitFile = (e) => {
+        e.preventDefault()
+        if(!previewSource) return;
+        uploadImage(previewSource)
+    }
+    const uploadImage = (base64EncodedImage) => {
+        console.log(base64EncodedImage)
+    }
     return (
         <div>
             <h1>Upload</h1>
-            <form>
+            <form onSubmit={handleSubmitFile}>
                 <input type="file" name="image" onChange={handleFileInputChange} value={fileInputState} className="form-input" />
-                <button className="btn" type="button">submit</button>
+                <button className="btn" type="submit">submit</button>
             </form>
             {previewSource && (
                 <img src={previewSource} alt="chosen" style={{height: '300px'}}/>
